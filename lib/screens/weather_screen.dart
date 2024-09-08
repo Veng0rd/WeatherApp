@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/api/weather_api_client.dart';
 
-import 'package:weather_app/bloc/weather_bloc.dart';
 import 'package:weather_app/screens/settings_screen.dart';
 import 'package:weather_app/widgets/weather_widget.dart';
 
@@ -13,29 +13,26 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  void _showDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Temperature'),
-          content: Text('You tapped on the temperature!'),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _changeTheme(BuildContext context, ThemeMode themeMode) {
-    BlocProvider.of<WeatherBloc>(context).add(ThemeChangeEvent(themeMode));
-  }
+  // void _showDialog(BuildContext context) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Temperature'),
+  //         content: Text('You tapped on the temperature!'),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('Close'),
+  //             onPressed: () {
+  //               Navigator.of(context).pop();
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
+  WeatherApiClient weatherApiClient = WeatherApiClient();
 
   @override
   Widget build(BuildContext context) {
