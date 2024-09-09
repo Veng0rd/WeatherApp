@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:weather_app/api/http_exception.dart';
+import 'package:weather_app/model/weather.dart';
 
 class WeatherApiClient {
   static const baseUrl = 'http://api.openweathermap.org';
@@ -12,7 +13,7 @@ class WeatherApiClient {
 
   final http.Client httpClient = http.Client();
 
-  Uri buildUri(Map<String, String> queryParameters) {
+  Uri _buildUri(Map<String, String> queryParameters) {
     var query = {'appid': apiKey, 'units': 'metric', 'lang': 'ru'};
     query = query..addAll(queryParameters);
 
@@ -28,9 +29,9 @@ class WeatherApiClient {
     return uri;
   }
 
-  Future<String> getCityNameFromLocation(
+  Future<Weather> getWeatherFromLocation(
       {required double latitude, required double longitude}) async {
-    final uri = buildUri({
+    final uri = _buildUri({
       'lat': latitude.toString(),
       'lon': longitude.toString(),
     });
@@ -41,7 +42,7 @@ class WeatherApiClient {
       throw HTTPException(res.statusCode, "unable to fetch weather data");
     }
 
-    final weatherJson = json.decode(res.body);
-    return weatherJson['name'];
+    final weatherJson = Weather.fromJson(json.decode(res.body));
+    return weatherJson;
   }
 }
